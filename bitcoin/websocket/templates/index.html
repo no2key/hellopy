@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="{{ static_url('odometer/themes/odometer-theme-digital.css') }}">
+    <link rel="stylesheet" href="{{ static_url('css/main.css') }}">
+</head>
+<body>
+    <div>最新成交价</div>
+    <div id="last" class="odometer">000000</div>
+    <div>最新买入价</div>
+    <div id="buy" class="odometer">000000</div>
+    <div>最新卖出价</div>
+    <div id="sell" class="odometer">000000</div>
+    <div>24小时均价</div>
+    <div id="h24" class="odometer">000000</div>
+<script src="{{ static_url('odometer/odometer.min.js') }}"></script>
+<script src="{{ static_url('js/main.js') }}"></script>
+</body>
+</html>
