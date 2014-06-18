@@ -1,5 +1,5 @@
-import mysql.connector
-from mysql.connector.errors import Error
+import pymysql
+from pymysql.err import Error
 
 __version__ = 0.1
 __author__ = 'imaguowei@gmail.com'
@@ -12,13 +12,12 @@ def get_version():
 class GreenSql():
     conn = ''
 
-    def __init__(self, host, user, password, database, autocommit=True, buffered=True):
+    def __init__(self, host, user, passwd, database, autocommit=True):
         self.host = host
         self.user = user
-        self.password = password
+        self.passwd = passwd
         self.database = database
         self.autocommit = autocommit
-        self.buffered = buffered
         GreenSql.conn = self._connect()
 
     @staticmethod
@@ -28,8 +27,8 @@ class GreenSql():
         return GreenSql.conn
 
     def _connect(self):
-        return mysql.connector.connect(host=self.host, user=self.user, password=self.password, database=self.database,
-                                       autocommit=self.autocommit, buffered=self.buffered)
+        return pymysql.connect(host=self.host, user=self.user, passwd=self.passwd, database=self.database,
+                               autocommit=self.autocommit)
 
     def _close(self):
         pass

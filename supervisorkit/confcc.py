@@ -18,10 +18,3 @@ class Supervisor():
         for i in range(self.num):
             self.programs.append(self.program + '-' + str(self.port + i))
         return res.format(*self.programs)
-
-
-if __name__ == '__main__':
-    sup = Supervisor('tornados', 'tornado', 8000, 4)
-    print(sup.mk_group())
-    print(sup.mk_programs())
-    print(sup.programs)
