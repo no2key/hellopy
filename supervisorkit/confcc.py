@@ -13,13 +13,13 @@ class Supervisor():
         self.programs = []
 
     def mk_group(self):
-        return '[group:{}]\n'.format(self.group)
+        return '[group:{}]'.format(self.group)
 
     def mk_programs(self):
         res = ('programs=' + '{}, ' * self.num)[:-2]
         for i in range(self.num):
             self.programs.append(self.program + '-' + str(self.port + i))
-        return res.format(*self.programs) + '\n'
+        return res.format(*self.programs)
 
     def mk_program(self, port):
         res = """

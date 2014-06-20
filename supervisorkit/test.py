@@ -4,8 +4,17 @@ from supervisorkit.confcc import Supervisor
 
 class TestSupervisor(unittest.TestCase):
 
+    conf = {
+        'group': 'tornados',
+        'program': 'tornado',
+        'port': 8000,
+        'num': 4,
+        'directory': '/home/maguowei/tornado',
+        'command': 'bastogne.py',
+    }
+
     def setUp(self):
-        self.supervisor = Supervisor('tornados', 'tornado', 8000, 4, '/home/maguowei/tornado', 'bastogne.py')
+        self.supervisor = Supervisor(**self.conf)
 
     def test_mk_group(self):
         self.assertEqual('[group:tornados]', self.supervisor.mk_group())
@@ -27,10 +36,13 @@ loglevel=info
         self.assertEqual(res, self.supervisor.mk_program(8000))
 
     def test_get_all_programs(self):
+        res = []
+        for i in range(self.conf['num']):
+            res.append(self.supervisor.mk_program(self.conf['port'] + i))
         with open('supervisor.conf', 'w') as f:
-            f.write(self.supervisor.mk_group())
-            f.write(self.supervisor.mk_programs())
+            f.write(self.supervisor.mk_group() + '\n')
+            f.write(self.supervisor.mk_programs() + '\n')
             for p in self.supervisor.get_all_programs():
                 f.write(p)
 
-        self.assertListEqual([], self.supervisor.get_all_programs())
+        self.assertListEqual(res, self.supervisor.get_all_programs())
