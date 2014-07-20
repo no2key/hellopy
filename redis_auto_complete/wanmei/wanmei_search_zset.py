@@ -1,23 +1,21 @@
-"""使用redis实现自动补全
-
-"""
+# -*- coding:utf-8 -*-
 import itertools
 from functools import reduce
 import redis
+import pymysql
 
 
 class AutoCpmplate():
-    def __init__(self, host='localhost', port=6379, db=0):
-        self.r = redis.StrictRedis(host=host, port=port, db=db)
+    def __init__(self):
+        self.r = redis.StrictRedis(host='localhost', port=6379, db=0)
+        self.db = pymysql.connect(host='localhost', port=3306, user='root', passwd='root', database='zhengxing',
+                                  charset='utf8')
 
-    def add_all(self, l):
-        """一次性添加所有元素
-
-        :param l: list
-        :return:
-        """
-        for i in l:
-            self.add(i)
+    def add_all(self):
+        cursor = self.db.cursor()
+        cursor.execute('select name from api_doctor')
+        for i in cursor:
+            self.add(i[0])
 
     # def add(self, d):
     #     for i in range(1, len(d[1])+1):
@@ -45,10 +43,17 @@ class AutoCpmplate():
 
         return data
 
+    def query(self, s):
+        return self.r.sdiff(s)
+
+    def query_and_print(self, s):
+        for k in auto.query(s):
+            print(k.decode())
+
 
 if __name__ == '__main__':
     auto = AutoCpmplate()
-    test_data = ['张三', '张三丰', '张学良']
-    auto.add_all(test_data)
-    for j in auto.r.sdiff('三'):
-        print(j.decode())
+    # auto.add_all()
+    # for j in auto.query('王明'):
+    #     print(j.decode())
+    auto.query_and_print('王明')
