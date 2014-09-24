@@ -7,6 +7,6 @@ import boto.s3
 from boto.s3.connection import Location
 from boto.s3.key import Key
 
-s3 = boto.s3.connect_to_region('cn-north-1', aws_access_key_id='xxxxx', aws_secret_access_key='xxxxx')
+conn = boto.s3.connect_to_region('cn-north-1', aws_access_key_id='xxxxx', aws_secret_access_key='xxxxx')
 boto.set_stream_logger('boto')
-s3.create_bucket('xxxx', location=Location.CNNorth1)
+conn.create_bucket('xxxx', location=Location.CNNorth1)
